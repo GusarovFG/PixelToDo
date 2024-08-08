@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todolist/presentation/mainScreen.dart';
+import 'package:todolist/presentation/mainScreen/mainScreen.dart';
 
 class Application extends StatelessWidget {
   const Application({super.key});
