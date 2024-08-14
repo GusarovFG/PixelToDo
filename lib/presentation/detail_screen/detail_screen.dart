@@ -24,6 +24,7 @@ class _DetailScreenState extends State<DetailScreen> {
       titleController.text = widget.task?.title ?? '';
       descriptionController.text = widget.task?.description ?? '';
     }
+
     super.initState();
   }
 
@@ -38,6 +39,7 @@ class _DetailScreenState extends State<DetailScreen> {
         children: [
           TextField(
             controller: titleController,
+            maxLength: 20,
           ),
           TextField(
             controller: descriptionController,

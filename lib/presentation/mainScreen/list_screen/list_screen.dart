@@ -26,6 +26,7 @@ class _ListScreenState extends State<ListScreen> {
                 return GestureDetector(
                   child: TaskListTile(
                     task: box.values.toList()[index],
+                    index: index,
                   ),
                   onTap: () {
                     Navigator.push(
