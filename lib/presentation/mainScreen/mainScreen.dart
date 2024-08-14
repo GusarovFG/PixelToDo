@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pixel_border/pixel_border.dart';
 import 'package:todolist/presentation/detail_screen/detail_screen.dart';
 import 'package:todolist/presentation/mainScreen/list_screen/list_screen.dart';
 
@@ -9,7 +10,10 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ToDoList'),
+        title: const Text(
+          'ToDoList',
+          style: TextStyle(fontFamily: 'pixel'),
+        ),
         centerTitle: true,
       ),
       body: Stack(
@@ -18,16 +22,31 @@ class MainScreen extends StatelessWidget {
           Positioned(
               bottom: 20,
               right: 20,
-              child: FloatingActionButton.large(onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DetailScreen(
-                      task: null,
+              child: FloatingActionButton(
+                  shape: PixelBorder.solid(
+                      color: Colors.black,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(14),
+                      ),
+                      pixelSize: 2),
+                  backgroundColor: Colors.white,
+                  child: Transform.scale(
+                    scale: 2,
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.black,
                     ),
                   ),
-                );
-              }))
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailScreen(
+                          task: null,
+                        ),
+                      ),
+                    );
+                  }))
         ],
       ),
     );

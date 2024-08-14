@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pixel_border/pixel_border.dart';
 import 'package:todolist/hive_service/hive_service.dart';
 import 'package:todolist/model/item_model.dart';
 
@@ -16,37 +17,43 @@ class TaskListTile extends StatefulWidget {
 class _TaskListTileState extends State<TaskListTile> {
   @override
   Widget build(BuildContext context) {
-    final heightOfScreen = MediaQuery.sizeOf(context).height;
     final wigthOfScreen = MediaQuery.sizeOf(context).width;
 
     return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          color: Colors.white60,
-          border: Border.all(color: Colors.black, width: 3),
-          borderRadius: const BorderRadius.all(Radius.circular(10))),
+      padding: const EdgeInsets.all(10.0),
+      decoration: ShapeDecoration(
+        shape: PixelBorder.solid(
+            color: Colors.black,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(4),
+            ),
+            pixelSize: 2),
+      ),
       width: wigthOfScreen,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             widget.task.title,
+            style: const TextStyle(fontFamily: 'pixel', fontSize: 18),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Transform.scale(
-                scale: 1.5,
-                child: Checkbox(
-                    shape: CircleBorder(eccentricity: 1, side: BorderSide.none),
-                    side: BorderSide(width: 2),
-                    checkColor: Colors.amber,
-                    value: widget.task.isComplite,
-                    onChanged: (bool? value) {
-                      HiveService().updatedComplited(
-                          task: widget.task, index: widget.index);
-                    }),
-              )
+              Checkbox(
+                  shape: PixelBorder.solid(
+                      color: Colors.black,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(2),
+                      ),
+                      pixelSize: 2),
+                  side: const BorderSide(width: 1),
+                  checkColor: Colors.amber,
+                  value: widget.task.isComplite,
+                  onChanged: (bool? value) {
+                    HiveService().updatedComplited(
+                        task: widget.task, index: widget.index);
+                  })
             ],
           )
         ],
