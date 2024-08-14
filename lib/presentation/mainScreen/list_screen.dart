@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:todolist/hive_service/hive_service.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:todolist/model/item_model.dart';
 
 class ListScreen extends StatefulWidget {
   const ListScreen({super.key});
@@ -8,46 +12,21 @@ class ListScreen extends StatefulWidget {
 }
 
 class _ListScreenState extends State<ListScreen> {
-  late List<String> list;
-
-  @override
-  void initState() {
-    list = [
-      'adasdad',
-      'adasdad',
-      'adasdad',
-      'adasdad',
-      'adasdad',
-      'adasdad',
-      'adasdad',
-      'adasdad',
-      'adasdad',
-      'adasdad',
-      'adasdad',
-      'adasdad',
-      'adasdad',
-      'adasdad',
-      'adasdad',
-      'adasdad',
-      'adasdad',
-      'adasdad',
-      'adasdad',
-      'adasdad',
-    ];
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: ListView.separated(
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(list[index]),
-            );
-          },
-          separatorBuilder: (context, index) => const Divider(),
-          itemCount: list.length),
+    return ValueListenableBuilder(
+      valueListenable: Hive.box<ItemModel>(HiveService.boxName).listenable(),
+      builder: (context, Box<ItemModel> box, widget) {
+        return ListView.separated(
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                title: Text(box.values.toList()[index].title),
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(),
+            itemCount: box.length);
+      },
     );
   }
 }

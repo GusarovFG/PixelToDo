@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:todolist/hive_service/hive_service.dart';
+import 'package:todolist/model/item_model.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key});
@@ -8,6 +10,8 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  final HiveService _hiveService = HiveService();
+
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
@@ -28,6 +32,11 @@ class _DetailScreenState extends State<DetailScreen> {
           ),
           MaterialButton(
             onPressed: () {
+              final task = ItemModel(
+                  isComplite: false,
+                  title: titleController.text,
+                  description: descriptionController.text);
+              _hiveService.addTask(task);
               Navigator.pop(context);
             },
             child: const Text('Save'),
