@@ -30,20 +30,26 @@ class HiveService {
     return box.values.toList();
   }
 
-  Future<void> deleteTask(int index) async {
+  Future<ItemModel> getTaskForIndex({required int index}) async {
+    var box = await _box;
+    return box.values.toList()[index];
+  }
+
+  Future<void> deleteTask({required int index}) async {
     var box = await _box;
 
     await box.deleteAt(index);
   }
 
-  Future<void> updatedComplited(ItemModel task, int index) async {
+  Future<void> updatedComplited(
+      {required ItemModel task, required int index}) async {
     var box = await _box;
 
     task.isComplite = !task.isComplite;
     await box.putAt(index, task);
   }
 
-  Future<void> updateTask(ItemModel task, int index) async {
+  Future<void> updateTask({required ItemModel task, required int index}) async {
     var box = await _box;
 
     await box.putAt(index, task);

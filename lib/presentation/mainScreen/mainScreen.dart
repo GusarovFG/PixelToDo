@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todolist/presentation/detail_screen/detail_screen.dart';
-import 'package:todolist/presentation/mainScreen/list_screen.dart';
+import 'package:todolist/presentation/mainScreen/list_screen/list_screen.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -20,9 +20,13 @@ class MainScreen extends StatelessWidget {
               right: 20,
               child: FloatingActionButton.large(onPressed: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const DetailScreen()));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DetailScreen(
+                      task: null,
+                    ),
+                  ),
+                );
               }))
         ],
       ),
