@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:pixel_border/pixel_border.dart';
 import 'package:todolist/hive_service/hive_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todolist/model/item_model.dart';
 import 'package:todolist/presentation/detail_screen/detail_screen.dart';
 import 'package:todolist/presentation/mainScreen/list_screen/task_list_tile.dart';
+import 'package:todolist/presentation/pixel_decoration/pixel_decoration.dart';
 
 class ListScreen extends StatefulWidget {
   const ListScreen({super.key});
@@ -27,15 +27,7 @@ class _ListScreenState extends State<ListScreen> {
                 return Dismissible(
                   key: ValueKey(box.values.toList()[index].title),
                   background: Container(
-                    decoration: ShapeDecoration(
-                      color: Colors.red.shade300,
-                      shape: PixelBorder.solid(
-                          color: Colors.red,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(4),
-                          ),
-                          pixelSize: 2),
-                    ),
+                    decoration: PixelDecoration.shapeDecoration,
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

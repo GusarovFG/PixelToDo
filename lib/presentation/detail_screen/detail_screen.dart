@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:pixel_border/pixel_border.dart';
 import 'package:todolist/hive_service/hive_service.dart';
 import 'package:todolist/model/item_model.dart';
+import 'package:todolist/presentation/pixel_decoration/pixel_decoration.dart';
 
 class DetailScreen extends StatefulWidget {
   final ItemModel? task;
   final int? index;
 
-  DetailScreen({super.key, this.task, this.index});
+  const DetailScreen({super.key, this.task, this.index});
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -47,54 +47,79 @@ class _DetailScreenState extends State<DetailScreen> {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            Container(
-              decoration: ShapeDecoration(
-                shape: PixelBorder.solid(
-                    color: Colors.black,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(4),
+            Column(
+              children: [
+                const Text('TITLE'),
+                const SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  decoration: PixelDecoration.shapeDecoration,
+                  child: SizedBox(
+                    width: widthOfScreen,
+                    height: 50,
+                    child: TextField(
+                      controller: titleController,
+                      maxLines: null,
+                      expands: true,
+                      keyboardType: TextInputType.multiline,
+                      decoration: const InputDecoration(
+                          filled: true, hintText: 'Enter a title'),
                     ),
-                    pixelSize: 2),
-              ),
-              child: TextFormField(
-                decoration: InputDecoration(isDense: true),
-                controller: titleController,
-                maxLength: 20,
-              ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 15,
             ),
             Column(
               children: [
-                Text(
-                  'Title',
+                const Text(
+                  'DESCRIPTION',
                 ),
-                SizedBox(
+                const SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  decoration: PixelDecoration.shapeDecoration,
                   width: widthOfScreen,
-                  height: 120,
+                  height: 200,
                   child: TextField(
                     controller: descriptionController,
                     maxLines: null,
                     expands: true,
                     keyboardType: TextInputType.multiline,
-                    decoration: InputDecoration(
-                        filled: true, hintText: 'Enter a message'),
+                    decoration: const InputDecoration(
+                        filled: true, hintText: 'Enter a description'),
                   ),
                 ),
               ],
             ),
-            MaterialButton(
-              onPressed: () {
-                final task = ItemModel(
-                    isComplite: false,
-                    title: titleController.text,
-                    description: descriptionController.text);
+            // ignore: prefer_const_constructors
+            SizedBox(
+              height: 30,
+            ),
+            Container(
+              height: 50,
+              width: widthOfScreen / 4,
+              decoration: PixelDecoration.shapeDecoration,
+              child: MaterialButton(
+                onPressed: () {
+                  final task = ItemModel(
+                      isComplite: false,
+                      title: titleController.text,
+                      description: descriptionController.text);
 
-                widget.task == null
-                    ? _hiveService.addTask(task)
-                    : _hiveService.updateTask(task: task, index: widget.index!);
+                  widget.task == null
+                      ? _hiveService.addTask(task)
+                      : _hiveService.updateTask(
+                          task: task, index: widget.index!);
 
-                Navigator.pop(context);
-              },
-              child: const Text('Save'),
+                  Navigator.pop(context);
+                },
+                child: const Text('Save'),
+              ),
             )
           ],
         ),
