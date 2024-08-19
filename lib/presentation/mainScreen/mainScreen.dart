@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pixel_border/pixel_border.dart';
 import 'package:todolist/presentation/detail_screen/detail_screen.dart';
 import 'package:todolist/presentation/mainScreen/list_screen/list_screen.dart';
@@ -8,8 +11,15 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final systemBrightness = PlatformDispatcher.instance.platformBrightness;
+
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarIconBrightness: systemBrightness == Brightness.dark
+                ? Brightness.light
+                : Brightness.dark),
         title: const Text(
           'ToDoList',
         ),
@@ -25,24 +35,24 @@ class MainScreen extends StatelessWidget {
                 right: 20,
                 child: FloatingActionButton(
                     shape: PixelBorder.solid(
-                        color: Colors.black,
+                        color: Theme.of(context).colorScheme.onPrimary,
                         borderRadius: const BorderRadius.all(
                           Radius.circular(14),
                         ),
                         pixelSize: 2),
-                    backgroundColor: Colors.white,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     child: Transform.scale(
                       scale: 2,
-                      child: const Icon(
+                      child: Icon(
                         Icons.add,
-                        color: Colors.black,
+                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                     ),
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => DetailScreen(
+                          builder: (context) => const DetailScreen(
                             task: null,
                           ),
                         ),

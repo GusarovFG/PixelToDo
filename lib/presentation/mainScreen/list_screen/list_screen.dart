@@ -27,17 +27,24 @@ class _ListScreenState extends State<ListScreen> {
                 return Dismissible(
                   key: ValueKey(box.values.toList()[index].title),
                   background: Container(
-                    decoration: PixelDecoration.shapeDecoration,
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'DELETE',
-                        ),
-                        Text(
-                          'DELETE',
-                        )
-                      ],
+                    decoration: PixelDecoration.shapeDecoration(context),
+                    child: ColoredBox(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            ' DELETE',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary),
+                          ),
+                          Text(
+                            'DELETE ',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   onDismissed: (_) {

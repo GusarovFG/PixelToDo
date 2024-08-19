@@ -1,6 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:todolist/hive_service/hive_service.dart';
 import 'package:todolist/model/item_model.dart';
+import 'package:todolist/presentation/detail_screen/detail_alert.dart';
 import 'package:todolist/presentation/pixel_decoration/pixel_decoration.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -15,6 +19,7 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   String mainTitle = '';
+  bool buttonIsEnable = true;
 
   final HiveService _hiveService = HiveService();
 
@@ -38,10 +43,18 @@ class _DetailScreenState extends State<DetailScreen> {
   Widget build(BuildContext context) {
     final double widthOfScreen = MediaQuery.sizeOf(context).width;
 
+    final systemBrightness = PlatformDispatcher.instance.platformBrightness;
+
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarIconBrightness: systemBrightness == Brightness.dark
+                ? Brightness.light
+                : Brightness.dark),
         title: Text(mainTitle),
         centerTitle: true,
+        backgroundColor: Colors.transparent,
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -54,18 +67,22 @@ class _DetailScreenState extends State<DetailScreen> {
                   height: 5,
                 ),
                 Container(
-                  decoration: PixelDecoration.shapeDecoration,
-                  child: SizedBox(
-                    width: widthOfScreen,
-                    height: 50,
-                    child: TextField(
-                      controller: titleController,
-                      maxLines: null,
-                      expands: true,
-                      keyboardType: TextInputType.multiline,
-                      decoration: const InputDecoration(
-                          filled: true, hintText: 'Enter a title'),
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  decoration: PixelDecoration.shapeDecoration(context),
+                  width: widthOfScreen,
+                  height: 50,
+                  child: TextField(
+                    controller: titleController,
+                    maxLines: null,
+                    expands: true,
+                    keyboardType: TextInputType.multiline,
+                    decoration: const InputDecoration(
+                      filled: false,
+                      hintText: 'Enter a title',
+                      border: InputBorder.none,
                     ),
+                    cursorColor: Theme.of(context).colorScheme.onPrimary,
+                    cursorWidth: 10,
                   ),
                 ),
               ],
@@ -82,16 +99,25 @@ class _DetailScreenState extends State<DetailScreen> {
                   height: 5,
                 ),
                 Container(
-                  decoration: PixelDecoration.shapeDecoration,
+                  decoration: PixelDecoration.shapeDecoration(context),
                   width: widthOfScreen,
                   height: 200,
-                  child: TextField(
-                    controller: descriptionController,
-                    maxLines: null,
-                    expands: true,
-                    keyboardType: TextInputType.multiline,
-                    decoration: const InputDecoration(
-                        filled: true, hintText: 'Enter a description'),
+                  child: Container(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    color: Theme.of(context).colorScheme.primary,
+                    child: TextFormField(
+                      controller: descriptionController,
+                      maxLines: null,
+                      expands: true,
+                      keyboardType: TextInputType.multiline,
+                      decoration: const InputDecoration(
+                        filled: false,
+                        hintText: 'Enter a description',
+                        border: InputBorder.none,
+                      ),
+                      cursorColor: Theme.of(context).colorScheme.onPrimary,
+                      cursorWidth: 10,
+                    ),
                   ),
                 ),
               ],
@@ -103,20 +129,30 @@ class _DetailScreenState extends State<DetailScreen> {
             Container(
               height: 50,
               width: widthOfScreen / 4,
-              decoration: PixelDecoration.shapeDecoration,
+              decoration: PixelDecoration.shapeDecoration(context),
               child: MaterialButton(
+                enableFeedback: true,
+                textColor: Theme.of(context).colorScheme.onPrimary,
                 onPressed: () {
-                  final task = ItemModel(
-                      isComplite: false,
-                      title: titleController.text,
-                      description: descriptionController.text);
+                  if (titleController.text.isNotEmpty) {
+                    final task = ItemModel(
+                        isComplite: false,
+                        title: titleController.text,
+                        description: descriptionController.text);
 
-                  widget.task == null
-                      ? _hiveService.addTask(task)
-                      : _hiveService.updateTask(
-                          task: task, index: widget.index!);
+                    widget.task == null
+                        ? _hiveService.addTask(task)
+                        : _hiveService.updateTask(
+                            task: task, index: widget.index!);
 
-                  Navigator.pop(context);
+                    Navigator.pop(context);
+                  } else {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext contex) {
+                          return DetailAlert();
+                        });
+                  }
                 },
                 child: const Text('Save'),
               ),
