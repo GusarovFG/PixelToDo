@@ -35,7 +35,6 @@ class _TaskListTileState extends State<TaskListTile> {
         children: [
           Text(
             widget.task.title,
-            style: const TextStyle(fontFamily: 'pixel', fontSize: 18),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

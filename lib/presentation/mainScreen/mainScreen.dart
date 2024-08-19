@@ -12,42 +12,44 @@ class MainScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'ToDoList',
-          style: TextStyle(fontFamily: 'pixel'),
         ),
         centerTitle: true,
+        backgroundColor: Colors.transparent,
       ),
-      body: Stack(
-        children: [
-          const ListScreen(),
-          Positioned(
-              bottom: 20,
-              right: 20,
-              child: FloatingActionButton(
-                  shape: PixelBorder.solid(
-                      color: Colors.black,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(14),
-                      ),
-                      pixelSize: 2),
-                  backgroundColor: Colors.white,
-                  child: Transform.scale(
-                    scale: 2,
-                    child: const Icon(
-                      Icons.add,
-                      color: Colors.black,
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DetailScreen(
-                          task: null,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            const ListScreen(),
+            Positioned(
+                bottom: 20,
+                right: 20,
+                child: FloatingActionButton(
+                    shape: PixelBorder.solid(
+                        color: Colors.black,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(14),
                         ),
+                        pixelSize: 2),
+                    backgroundColor: Colors.white,
+                    child: Transform.scale(
+                      scale: 2,
+                      child: const Icon(
+                        Icons.add,
+                        color: Colors.black,
                       ),
-                    );
-                  }))
-        ],
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailScreen(
+                            task: null,
+                          ),
+                        ),
+                      );
+                    }))
+          ],
+        ),
       ),
     );
   }

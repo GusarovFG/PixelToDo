@@ -41,11 +41,10 @@ class _ListScreenState extends State<ListScreen> {
                       children: [
                         Text(
                           'DELETE',
-                          style: TextStyle(fontFamily: 'pixel', fontSize: 20),
                         ),
-                        Text('DELETE',
-                            style:
-                                TextStyle(fontFamily: 'pixel', fontSize: 20)),
+                        Text(
+                          'DELETE',
+                        )
                       ],
                     ),
                   ),
